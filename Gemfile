@@ -5,7 +5,7 @@ gem 'rails', '3.1.1'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
+# gem 'sqlite3'
 gem 'formtastic'
 gem 'annotate', "~>2.4.1.beta1"
 gem 'pg'
@@ -19,7 +19,7 @@ group :assets do
 end
 
 group :production do
-	gem 'therubyracer-heroku'
+	# gem 'therubyracer-heroku'
 end
 
 
