@@ -1,0 +1,53 @@
+<div class="container">
+	<br />
+	<div class="hero-unit">
+		<h1>Word Counter</h1>
+		<p>Counting words, so you don't have to.</p>
+	</div>
+	
+	<div class="row-fluid">
+		
+		<div class="span12">
+			
+			<%= form_for @document, :url => wordcount_documents_path(@document), :multipart => true, :method => :post do |document_form| %>
+				
+				<p class="instruction-step">Step 1) Copy in a bunch of text to analyze (the more the merrier).</p>
+				<%= document_form.text_area :content, :class => "span12 large-text-input", :rows => 6 %>
+				<br />
+				
+				<p class="instruction-step">Step 2) Choose which groups of words to ignore</p>
+				<% @ignore_groups.each do |ignore_group| %>
+					<%= check_box_tag "ignore_group[#{ignore_group.id.to_s}]", ignore_group.id, @checked_ignore_groups[ignore_group.id] %> <%= ignore_group.title %> - <%= ignore_group.words.gsub(/,/,', ') %><br />
+				<% end %>
+				<br />
+				
+				<p class="instruction-substep">Optionally, also enter in some comma separated words to ignore.</p>
+				<%= text_area_tag 'custom_ignore', params[:custom_ignore], :class => "span12", :rows => 2 %>
+				<br />
+				
+				<span class="instruction-step">Step 3) Hit this button ->  <%= document_form.submit "Analyze!", :class => "btn btn-primary btn-large btn-analyze" %> </span>
+				<br />
+				
+			<% end %>
+			
+			
+			<p class="instruction-step">Step 4) Look at the pretty data!</p>
+			<br />
+
+			Total words: <%= @total_word_count %>; Unique words: <%= @count_results.count %><br />
+			<% @count_results.each do |word_result| %>
+
+				<%= word_result[0] %> - <%= word_result[1] %>
+
+				<div class="progress">
+					<div class="bar" style="width: <%= (word_result[1].to_f / @total_word_count) * 100 %>%"></div>
+				</div>
+					
+			<% end %>
+		</div>
+	</div>
+</div>
+
+<%= debug(params) %>
+
+
