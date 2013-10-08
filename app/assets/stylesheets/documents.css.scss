@@ -1,3 +1,8 @@
 // Place all the styles related to the Documents controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.counted-word-crossed-out {
+	text-decoration: line-through;
+	color: gray;
+}

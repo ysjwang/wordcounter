@@ -29,7 +29,6 @@
 				 into the text box.</span>
 			</div>	
 
-			<a href="#", onClick="$('#document_content').val('Hello Wrold.')">HELLO WORLD</a>
 
 			<div class="well">
 				<h2>Ignore Groups</h2>
@@ -39,6 +38,7 @@
 				<% end %>
 				<br /><hr />
 				
+				<a name="custom-ignores"></a>
 				<h3>Optional Custom Ignores</h3>
 				<p>Optionally, also enter in some comma separated words to ignore.</p>
 				<%= text_area_tag 'custom_ignore', params[:custom_ignore], :class => "form-control", :rows => 2 %>
@@ -54,19 +54,26 @@
 			<% end %>
 			
 			
-			<p class="instruction-step">Step 4) Look at the pretty data!</p>
-			<br />
+			<div class="well">
+				<h2>Data!</h2>
+				<p>Look at the pretty data!</p>
+				
+				<p>Total words: <%= @total_word_count %>; Unique words: <%= @count_results.count %></p>
+				<% @count_results.each do |word_result| %>
 
-			Total words: <%= @total_word_count %>; Unique words: <%= @count_results.count %><br />
-			<% @count_results.each do |word_result| %>
+					<% counted_word = word_result[0] %>
+					<% percent_number = (word_result[1].to_f / @total_word_count) * 100 %>
 
-			<%= word_result[0] %> - <%= word_result[1] %>
+					<strong><%= link_to counted_word.capitalize, 'javascript:void(0)', class: 'counted_word'  %></strong> - <%= word_result[1] %> (<%= number_to_percentage(percent_number, precision: 2) %>)
 
-			<div class="progress">
-				<div class="bar" style="width: <%= (word_result[1].to_f / @total_word_count) * 100 %>%"></div>
+					<div class="progress">
+						<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="<%= percent_number %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= percent_number %>%"></div>
+					</div>
+
+				<% end %>
 			</div>
 
-			<% end %>
+
 		</div>
 	</div>
 </div>
