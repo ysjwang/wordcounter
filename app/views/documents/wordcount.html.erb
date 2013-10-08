@@ -3,10 +3,7 @@
 	<div class="jumbotron">
 		<h1>Word Counter</h1>
 		<p>Counting words, so you don't have to.</p>
-		<br />
-		<button type="button" class="btn btn-default btn-lg">
-			<span class="glyphicon glyphicon-star"></span> Awesome!
-		</button>
+		<p class="text-muted credit">Source available by <a href="https://github.com/ysjwang/wordcounter" target="_blank">Josiah Wang</a>.</p>
 	</div>
 	
 	<div class="row">
@@ -34,7 +31,7 @@
 				<h2>Ignore Groups</h2>
 				<p>Choose which groups of words to ignore</p>
 				<% @ignore_groups.each do |ignore_group| %>
-				<%= check_box_tag "ignore_group[#{ignore_group.id.to_s}]", ignore_group.id, @checked_ignore_groups[ignore_group.id] %> <%= ignore_group.title %> - <%= ignore_group.words.gsub(/,/,', ') %><br />
+				<%= check_box_tag "ignore_group[#{ignore_group.id.to_s}]", ignore_group.id, @checked_ignore_groups[ignore_group.id] %> <strong><%= ignore_group.title %></strong> - <%= ignore_group.words.gsub(/,/,', ') %><br />
 				<% end %>
 				<br /><hr />
 				
@@ -42,13 +39,13 @@
 				<h3>Optional Custom Ignores</h3>
 				<p>Optionally, also enter in some comma separated words to ignore.</p>
 				<%= text_area_tag 'custom_ignore', params[:custom_ignore], :class => "form-control", :rows => 2 %>
+				<span class="help-block">You can also <a href="javascript:void(0)" class="counted_word">click</a> counted words below to choose want to ignore.</span>
+
 			</div>
 
 
 			<div class="well">	
-				<h2>Analyze</h2>
-				<%= document_form.submit "Analyze!", :class => "btn btn-primary btn-large btn-analyze" %>
-				<br />
+				<%= document_form.submit "Analyze!", :class => "btn btn-success btn-large btn-analyze" %>
 			</div>
 
 			<% end %>
@@ -56,18 +53,20 @@
 			
 			<div class="well">
 				<h2>Data!</h2>
-				<p>Look at the pretty data!</p>
+				<p>Results below show how many times each word is used in the content, in order of frequency.</p>
 				
-				<p>Total words: <%= @total_word_count %>; Unique words: <%= @count_results.count %></p>
+				<p><strong>Total words: <%= @total_word_count %>; Unique words: <%= @count_results.count %></strong></p>
 				<% @count_results.each do |word_result| %>
 
 					<% counted_word = word_result[0] %>
-					<% percent_number = (word_result[1].to_f / @total_word_count) * 100 %>
+					<% percent_number = (word_result[1].to_f / @total_word_count) * 100 # this is percentage of total words %>
+					<% normalized_percent_number = (word_result[1].to_f / @largest_count) * 100  # this is "normalized" for the top word (probably for graph purposes) %>
 
-					<strong><%= link_to counted_word.capitalize, 'javascript:void(0)', class: 'counted_word'  %></strong> - <%= word_result[1] %> (<%= number_to_percentage(percent_number, precision: 2) %>)
+
+					<strong><%= link_to counted_word.capitalize, 'javascript:void(0)', class: 'counted_word'  %></strong> - <%= word_result[1] %> (<%= number_to_percentage(percent_number, precision: 2) %>, <%= number_to_percentage(normalized_percent_number, precision: 2) %> normalized)
 
 					<div class="progress">
-						<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="<%= percent_number %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= percent_number %>%"></div>
+						<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="<%= normalized_percent_number %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= normalized_percent_number %>%"></div>
 					</div>
 
 				<% end %>
@@ -78,6 +77,5 @@
 	</div>
 </div>
 
-<%= debug(params) %>
 
 

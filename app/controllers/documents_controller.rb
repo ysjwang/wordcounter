@@ -32,6 +32,7 @@ class DocumentsController < ApplicationController
     @count_results = @document.count_words(false, ignore_regex_array)
     @total_word_count = @count_results.sum {|word| word[1]}
 
+    @largest_count = @count_results.first[1]
     
     
   end

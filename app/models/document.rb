@@ -13,23 +13,7 @@ class Document < ActiveRecord::Base
 
       formatted_content = formatted_content.gsub(ignored_regex.to_regex, '')
     end
-    
-=begin    
-    # BEGIN WORDS TO IGNORE
-    words_to_ignore = ['the', 'to', 'and', 'of', 'a','that']
-    ignored_regex = '('
-
-    words_to_ignore.each do |ignore_word|
-      ignored_regex = ignored_regex + '\b' +  ignore_word + '\b|'
-    end
-
-    ignored_regex = ignored_regex.chomp('|') + ')'
-
-    reg = Regexp.new(ignored_regex, Regexp::IGNORECASE)
-    formatted_content = formatted_content.gsub(reg, '')
-    
-    # END WORDS TO IGNORE
-=end    
+     
     
     if(case_sensitive)
       formatted_content.split.each do |word| # for each word
@@ -41,6 +25,7 @@ class Document < ActiveRecord::Base
       end
     end
     
+    # returns a sorted array already
     return word_hash.sort {|a,b| b[1] <=> a[1]}
     
   end
