@@ -5,7 +5,7 @@
 		<p>Counting words, so you don't have to.</p>
 		<br />
 		<button type="button" class="btn btn-default btn-lg">
-  			<span class="glyphicon glyphicon-star"></span> Awesome!
+			<span class="glyphicon glyphicon-star"></span> Awesome!
 		</button>
 	</div>
 	
@@ -14,29 +14,43 @@
 		<div class="col-md-12">
 			
 			<%= form_for @document, :url => wordcount_documents_path(@document), :multipart => true, :method => :post do |document_form| %>
-				
 
-				<h2>Step 1 - Text</h2>
+			<div class="well">
+				<h2>Text</h2>
 				<p>Copy in a bunch of text to analyze (the more the merrier).</p>
 				<%= document_form.text_area :content, :class => "form-control", :rows => 6 %>
-				<br /><hr />
-				
-				<h2>Step 2 - Ignore Groups</h2>
+
+	
+
+				<span class="help-block">Don't have any ideas? Load 
+
+					<%= link_to "Obama's SOTU Addresses", ajax_new_text_content_documents_path(params: {document_id: 1}), remote: true   %>
+
+				 into the text box.</span>
+			</div>	
+
+			<a href="#", onClick="$('#document_content').val('Hello Wrold.')">HELLO WORLD</a>
+
+			<div class="well">
+				<h2>Ignore Groups</h2>
 				<p>Choose which groups of words to ignore</p>
 				<% @ignore_groups.each do |ignore_group| %>
-					<%= check_box_tag "ignore_group[#{ignore_group.id.to_s}]", ignore_group.id, @checked_ignore_groups[ignore_group.id] %> <%= ignore_group.title %> - <%= ignore_group.words.gsub(/,/,', ') %><br />
+				<%= check_box_tag "ignore_group[#{ignore_group.id.to_s}]", ignore_group.id, @checked_ignore_groups[ignore_group.id] %> <%= ignore_group.title %> - <%= ignore_group.words.gsub(/,/,', ') %><br />
 				<% end %>
 				<br /><hr />
 				
 				<h3>Optional Custom Ignores</h3>
 				<p>Optionally, also enter in some comma separated words to ignore.</p>
 				<%= text_area_tag 'custom_ignore', params[:custom_ignore], :class => "form-control", :rows => 2 %>
-				<br /><hr />
-				
-				<h2>Step 3 - Analyze</h2>
+			</div>
+
+
+			<div class="well">	
+				<h2>Analyze</h2>
 				<%= document_form.submit "Analyze!", :class => "btn btn-primary btn-large btn-analyze" %>
-				<br /><hr />
-				
+				<br />
+			</div>
+
 			<% end %>
 			
 			
@@ -46,12 +60,12 @@
 			Total words: <%= @total_word_count %>; Unique words: <%= @count_results.count %><br />
 			<% @count_results.each do |word_result| %>
 
-				<%= word_result[0] %> - <%= word_result[1] %>
+			<%= word_result[0] %> - <%= word_result[1] %>
 
-				<div class="progress">
-					<div class="bar" style="width: <%= (word_result[1].to_f / @total_word_count) * 100 %>%"></div>
-				</div>
-					
+			<div class="progress">
+				<div class="bar" style="width: <%= (word_result[1].to_f / @total_word_count) * 100 %>%"></div>
+			</div>
+
 			<% end %>
 		</div>
 	</div>

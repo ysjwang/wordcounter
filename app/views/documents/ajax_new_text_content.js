@@ -1,0 +1,1 @@
+$('#document_content').val('<%= @new_content %>')
