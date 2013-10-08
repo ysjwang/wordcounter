@@ -1,6 +1,6 @@
 # Word Counter
 
-Word Counter is a simple word-count on steroids. It lets you analyze chunks of text and see the frequency of words. Includes support for custom ignore groups (such as pronouns, preopositions, common words, etc).
+Word Counter is a simple word-count on steroids. It lets you analyze chunks of text and see the frequency of words. Includes support for custom ignore groups (such as pronouns, preopositions, common words, etc). A demo version is running on heroku here: [Word Counter](http://wordcounter.herokuapp.com/).
 
 ## Custom Ignore Groups and Sample Text
 You can modify or add your own custom ignore groups by changing up the [db/seeds.rb](https://github.com/ysjwang/wordcounter/blob/master/db/seeds.rb) file. Pretty simple stuff, looks like this:
