@@ -13,5 +13,4 @@ IgnoreGroup.create(title: "Prepositions", words: "aboard,about,above,across,afte
 
 
 obama_sotu = File.read("public/Obama_SOTU.txt")
-
 Document.create(title: "Obama's State of the Union Address", content: obama_sotu)
