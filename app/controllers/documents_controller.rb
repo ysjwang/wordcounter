@@ -1,6 +1,8 @@
 class DocumentsController < ApplicationController
   def wordcount
     @document = Document.new(:content => "Enter some content here.")
+
+    
     # @document = Document.new(:content => Document.first.content)
     @ignore_groups = IgnoreGroup.all
 
@@ -35,6 +37,10 @@ class DocumentsController < ApplicationController
     @largest_count = @count_results.first[1]
     
     
+  end
+
+  def ajax_count
+
   end
 
 
