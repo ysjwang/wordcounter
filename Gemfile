@@ -1,26 +1,25 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.1'
+gem 'rails', '3.2.13'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
 # gem 'sqlite3'
 gem 'formtastic'
-gem 'annotate', "~>2.4.1.beta1"
+gem 'annotate'
 gem 'pg'
 
-# Gems used only for assets and not required
-# in production environments by default. s
-group :assets do
-  gem 'sass-rails',   '~> 3.1.4'
-  gem 'coffee-rails', '~> 3.1.1'
-  gem 'uglifier', '>= 1.0.3'
-end
 
-group :production do
-	# gem 'therubyracer-heroku'
-end
+gem 'bootstrap-sass', git: 'https://github.com/thomas-mcdonald/bootstrap-sass', branch: '3'
+
+
+gem 'sass-rails'
+gem 'coffee-rails'
+gem 'uglifier'
+
+
+
 
 
 gem 'jquery-rails'
