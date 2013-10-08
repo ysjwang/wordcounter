@@ -1,0 +1,28 @@
+/*
+ * This is a manifest file that'll automatically include all the stylesheets available in this directory
+ * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
+ * the top of the compiled file, but it's generally better to create a new file per style scope.
+ *= require_self
+ *= require_tree . 
+*/
+
+@import "bootstrap";
+
+.large-text-input {
+	font-size:24px;
+	line-height:24px;
+}
+
+.instruction-step {
+	font-size:28px;
+	line-height:32px;
+}
+
+.instruction-substep {
+	font-size:24px;
+	line-height:24px;
+}
+
+.btn-analyze {
+	font-size:24px;
+}
