@@ -30,8 +30,9 @@
 				<div class="well">
 					<h2>Ignore Groups</h2>
 					<p>Choose which groups of words to ignore</p>
+					<%= @checked_ignore_groups %>
 					<% @ignore_groups.each do |ignore_group| %>
-					<%= check_box_tag "ignore_group[#{ignore_group.id.to_s}]", ignore_group.id, @checked_ignore_groups[ignore_group.id] %> <strong><%= ignore_group.title %></strong> - <%= ignore_group.words.gsub(/,/,', ') %><br />
+					<%= check_box_tag "ignore_group[]", ignore_group.id, @checked_ignore_groups.include?(ignore_group.id.to_s) ? 'true' : nil %> <strong><%= ignore_group.title %></strong> - <%= ignore_group.words.gsub(/,/,', ') %><br />
 					<% end %>
 					<br /><hr />
 					

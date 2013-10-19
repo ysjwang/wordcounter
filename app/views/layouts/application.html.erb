@@ -15,6 +15,10 @@
 			<br />
 			<p class="text-muted credit">Word Counter created by <a href="https://github.com/ysjwang/wordcounter" target="_blank">Josiah Wang</a> (click for source code).</p>
 		</div>
+
+		<% if Rails.env.development? %>
+			<%= debug(params) %>
+		<% end %>
 	</div>
 
 </body>

@@ -1,40 +1,37 @@
 class DocumentsController < ApplicationController
-  def wordcount
-    @document = Document.new(:content => "Enter some content here.")
+	def wordcount
 
-    
-    # @document = Document.new(:content => Document.first.content)
+		
+
+
+    # Load all current pre-defined ignore_groups in the system
     @ignore_groups = IgnoreGroup.all
 
-    if params.has_key?(:document)
-      @document.content = params[:document][:content]
-    end
-    
-    
-    
-    ignore_regex_array = []
-    @checked_ignore_groups = []
-    if params.has_key?(:ignore_group)
-      params[:ignore_group].each do |ignore_group_id|
-        ignore_group = IgnoreGroup.find_by_id(ignore_group_id[1].to_i)
+    # Find out which groups are being ignored
+    @checked_ignore_groups = params[:ignore_group] || [] # for view's purposes
+    ignore_regex_array = IgnoreGroup.build_array_from_ids(params[:ignore_group])
 
-        ignore_regex_array.push(ignore_group)
-        @checked_ignore_groups[ignore_group_id[1].to_i] = true
-      end
-    end
-    
+    # Check custom ignore
     if params.has_key?(:custom_ignore)
-      custom_ignore_group = IgnoreGroup.new(:words => params[:custom_ignore])
-      ignore_regex_array.push(custom_ignore_group)
+    	custom_ignore_group = IgnoreGroup.new(words: params[:custom_ignore])
+    	ignore_regex_array.push(custom_ignore_group)
     end
     
+
+    if params.has_key?(:document)
+    	# A document has been input
+    	@document = Document.new_from_count(params[:document][:content], ignore_regex_array, case_sensitive: false)
+
+    else
+			# Start a fresh demo document
+			@document = Document.new_from_count("Enter some content here.", ignore_regex_array, case_sensitive: false)
+		end
+
+		# Results
+    @count_results = @document.word_hash
+    @total_word_count = @document.total_words
+    @largest_count = @document.largest_count
     
-
-
-    @count_results = @document.count_words(false, ignore_regex_array)
-    @total_word_count = @count_results.sum {|word| word[1]}
-
-    @largest_count = @count_results.first[1]
     
     
   end
@@ -46,19 +43,19 @@ class DocumentsController < ApplicationController
 
   def ajax_new_text_content
 
-    puts "I AM IN AJAX"
-    document = Document.find(1)
-    respond_to do |format|
-      @new_content = document.content.gsub(/\n/, '\n')
-      format.html { redirect_to wordcount_documents_path }
-      format.js
+  	puts "I AM IN AJAX"
+  	document = Document.find(1)
+  	respond_to do |format|
+  		@new_content = document.content.gsub(/\n/, '\n')
+  		format.html { redirect_to wordcount_documents_path }
+  		format.js
 
-    end
+  	end
 
   end
 
   def show
-    puts 'WHY AM I IN SHOW??'
+  	puts 'WHY AM I IN SHOW??'
   end
 
 end
